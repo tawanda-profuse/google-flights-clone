@@ -29,8 +29,9 @@ const Travel = () => {
       };
       try {
         const response = await axios.request(options);
+        const randIndex = response.data.data.results.length;
         setDestinations(
-          response.data.data.results.splice(0, 3).map((item) => {
+          response.data.data.results.splice(Math.random() * randIndex, 3).map((item) => {
             return {
               image: item.content.image.url,
               location: item.content.location.name,
