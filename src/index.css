@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@layer utilities {
+  body {
+    font-family: "Google Sans Display", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .grey-text {
+    @apply text-[#777]
+  }
+
+  .google-blue {
+    @apply text-[#1967d2]
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .move {
+    animation: scroll-sideways 2.5s infinite;
+  }
+
+  @keyframes scroll-sideways {
+    from {
+      left: 0
+    }
+
+    to {
+      left: 100vw
+    }
+  }
+}
