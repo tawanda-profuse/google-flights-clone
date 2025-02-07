@@ -1,11 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import SearchFlight from "../components/SearchFlight";
+import mapboxgl from "mapbox-gl";
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoidGF3YW5kYS1tc2VuZ2V6aSIsImEiOiJjbTZ1MzhuMzQwYWNtMmpzZzdpdnJzYW4xIn0.XwaxiDYQ54jCuM2fUf2YcA";
 
 const FlightsExplore = () => {
-  const scrollRef = useRef()
+  const scrollRef = useRef();
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+
   useEffect(() => {
-    document.title = "Explore";
-  });
+    if (map.current) return; // Initialize only once
+
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [0, 20], // Longitude, Latitude
+      zoom: 2,
+    });
+
+    // Add zoom and rotation controls
+    map.current.addControl(new mapboxgl.NavigationControl());
+  }, []);
 
   return (
     <main>
@@ -32,7 +49,10 @@ const FlightsExplore = () => {
               </svg>
               All Filters
             </button>
-            <div className="flex gap-[0.5rem] overflow-x-auto scrollbar-hide relative" ref={scrollRef}>
+            <div
+              className="flex gap-[0.5rem] overflow-x-auto scrollbar-hide relative"
+              ref={scrollRef}
+            >
               {[
                 "Stops",
                 "Travel Mode",
@@ -49,11 +69,14 @@ const FlightsExplore = () => {
                   {text} <i className="fas fa-chevron-down"></i>
                 </button>
               ))}
-              <button className="sticky top-2/4 right-0 border border-[#ccc] rounded-full py-[0.5rem] px-[0.8rem] bg-[#ddd] cursor-pointer hover:opacity-90 grey-text" onClick={() => {
-                if(scrollRef.current){
-                  scrollRef.current.scrollLeft + 100
-                }
-              }}>
+              <button
+                className="sticky top-2/4 right-0 border border-[#ccc] rounded-full py-[0.5rem] px-[0.8rem] bg-[#ddd] cursor-pointer hover:opacity-90 grey-text"
+                onClick={() => {
+                  if (scrollRef.current) {
+                    scrollRef.current.scrollLeft + 100;
+                  }
+                }}
+              >
                 <i className="fas fa-chevron-right"></i>
               </button>
             </div>
@@ -81,7 +104,10 @@ const FlightsExplore = () => {
           </div>
         </div>
         {/* Map */}
-        <div className="hidden md:block bg-[skyblue] w-[66%] rounded-xl mb-[1rem] mr-[0.5rem] cursor-pointer"></div>
+        <div
+          className="hidden md:block bg-[skyblue] w-[66%] rounded-xl mb-[1rem] mr-[0.5rem] cursor-pointer"
+          ref={mapContainer}
+        ></div>
       </div>
     </main>
   );
