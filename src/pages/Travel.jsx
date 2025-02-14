@@ -3,10 +3,10 @@ import trips from "../assets/trips_4.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../components/Loading";
+import staticMap from "../assets/staticmap.png";
 
 const Travel = () => {
   const navigate = useNavigate();
-  const apiUrl = "https://rapidapi.com";
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -14,7 +14,7 @@ const Travel = () => {
     const fetchData = async () => {
       const options = {
         method: "GET",
-        url: "https://sky-scrapper.p.rapidapi.com/api/v2/flights/searchFlightEverywhere",
+        url: `https://${import.meta.env.VITE_RAPID_API_HOST}/api/v2/flights/searchFlightEverywhere`,
         params: {
           originEntityId: "95673320",
           cabinClass: "economy",
@@ -22,26 +22,26 @@ const Travel = () => {
           currency: "USD",
         },
         headers: {
-          "x-rapidapi-key":
-            "be9ae4b019msh07737993feb38cep184dc7jsn3f0d4711fd85",
-          "x-rapidapi-host": "sky-scrapper.p.rapidapi.com",
+          "x-rapidapi-key": import.meta.env.VITE_RAPID_API_KEY,
+          "x-rapidapi-host": import.meta.env.VITE_RAPID_API_HOST,
         },
       };
       try {
         const response = await axios.request(options);
         const randIndex = response.data.data.results.length;
         setDestinations(
-          response.data.data.results.splice(Math.random() * randIndex, 3).map((item) => {
-            return {
-              image: item.content.image.url,
-              location: item.content.location.name,
-              details: `The cheapest flight costs ${item.content.flightQuotes.cheapest?.price}. Direct flights cost ${item.content.flightQuotes.direct?.price}`,
-            };
-          })
+          response.data.data.results
+            .splice(Math.random() * randIndex, 3)
+            .map((item) => {
+              return {
+                image: item.content.image.url,
+                location: item.content.location.name,
+                details: `The cheapest flight costs ${item.content.flightQuotes.cheapest?.price}. Direct flights cost ${item.content.flightQuotes.direct?.price}`,
+              };
+            })
         );
       } catch (error) {
         console.error("Error: ", error);
-        alert("An error has occurred while fetching popular destinations");
       } finally {
         setLoading(false);
       }
@@ -112,7 +112,7 @@ const Travel = () => {
                   .fill(null)
                   .map((_, index) => (
                     <div
-                      className="flex rounded-xl border border-[#ccc] cursor-pointer hover:shadow-md hover:shadow-[#ccc] h-[25vh] bg-[#ccc] animate-pulse"
+                      className="flex rounded-xl border border-[#ccc] hover:shadow-md hover:shadow-[#ccc] h-[25vh] bg-[#ccc] animate-pulse"
                       key={index}
                     ></div>
                   ))}
@@ -121,13 +121,14 @@ const Travel = () => {
                   {destinations.length > 0 ? (
                     destinations.map((location, index) => (
                       <div
-                        className="flex rounded-xl border border-[#ccc] cursor-pointer hover:shadow-md hover:shadow-[#ccc]"
+                        className="flex rounded-xl border border-[#ccc] cursor-pointer hover:shadow-md hover:shadow-[#ccc] my-[0.5rem] md:my-0"
                         key={index}
+                        onClick={() => navigate("/travel/explore")}
                       >
                         <img
                           src={location.image}
                           alt={location.location}
-                          className="h-[120px] min-w-[188px] rounded-l-xl bg-[gray]"
+                          className="h-[9rem] w-[12rem] rounded-l-xl bg-[gray]"
                         />
                         <div className="flex flex-col pt-[1rem] ml-[1rem] max-w-[18rem]">
                           <h4 className="text-[#202124] text-[1rem] font-medium">
@@ -154,7 +155,7 @@ const Travel = () => {
                 <i className="fas fa-arrows-up-down rotate-45 text-[#70757a]"></i>
               </div>
               <img
-                src="https://maps.googleapis.com/maps/api/staticmap?&size=508x457&key=AIzaSyCMXZJgNbwR_PUfsUlyKfRldqfOyQOEd_g&language=en-US&markers=scale:2|anchor:center|icon:https://www.gstatic.com/flights/app/dot.png|-34.6036844%2C-58.3815591|48.857547499999995%2C2.3513764999999998|35.6764225%2C139.650027&scale=2&style=feature:all|element:labels|visibility:off&style=feature:poi|element:all|visibility:off&style=feature:road|element:all|visibility:off&style=feature:transit|element:all|visibility:off"
+                src={staticMap}
                 alt="map"
                 className="rounded-2xl bg-[center] bg-no-repeat cursor-pointer"
               />

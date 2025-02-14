@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from "react";
 import SearchFlight from "../components/SearchFlight";
 import mapboxgl from "mapbox-gl";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoidGF3YW5kYS1tc2VuZ2V6aSIsImEiOiJjbTZ1MzhuMzQwYWNtMmpzZzdpdnJzYW4xIn0.XwaxiDYQ54jCuM2fUf2YcA";
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCEESS_TOKEN;
 
 const FlightsExplore = () => {
   const scrollRef = useRef();
   const mapContainer = useRef(null);
   const map = useRef(null);
+
 
   useEffect(() => {
     if (map.current) return; // Initialize only once

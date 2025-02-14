@@ -14,7 +14,7 @@ const Sidebar = ({ open, setOpen }) => {
   return (
     <div
       id="sidebar"
-      className={`fixed bg-[white] z-[100] w-1/5 transition-all duration-400 ${
+      className={`absolute bg-[white] z-[100] w-3/4 md:w-1/5 transition-all duration-400 ${
         open ? "left-0" : "-left-1/5"
       } flex flex-col gap-[1rem] grey-text font-medium py-[1rem] h-[90vh] overflow-y-auto border-r border-r-[#ccc] text-[0.9rem]`}
       onClick={() => setOpen(false)}
