@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import SearchFlight from "../components/SearchFlight";
 import mapboxgl from "mapbox-gl";
 
-mapboxgl.accessToken = import.meta.env.MAPBOX_ACCESS_TOKEN;
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCEESS_TOKEN;
 
 const FlightsExplore = () => {
   const scrollRef = useRef();
