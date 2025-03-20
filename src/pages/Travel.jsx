@@ -14,7 +14,7 @@ const Travel = () => {
     const fetchData = async () => {
       const options = {
         method: "GET",
-        url: `https://${import.meta.env.VITE_RAPID_API_HOST}/api/v2/flights/searchFlightEverywhere`,
+        url: `https://${import.meta.env.RAPID_API_HOST}/api/v2/flights/searchFlightEverywhere`,
         params: {
           originEntityId: "95673320",
           cabinClass: "economy",
@@ -22,8 +22,8 @@ const Travel = () => {
           currency: "USD",
         },
         headers: {
-          "x-rapidapi-key": import.meta.env.VITE_RAPID_API_KEY,
-          "x-rapidapi-host": import.meta.env.VITE_RAPID_API_HOST,
+          "x-rapidapi-key": import.meta.env.RAPID_API_KEY,
+          "x-rapidapi-host": import.meta.env.RAPID_API_HOST,
         },
       };
       try {
